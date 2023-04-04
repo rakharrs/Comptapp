@@ -29,11 +29,17 @@ class Compte_general_model extends \CI_Model
 		}
 	}
 
-    function get_all($limit, $offset){
+    function get_cg($limit, $offset){
         $this->db->select('*');
         $this->db->from('compte_general');
         $this->db->order_by('id', 'ASC');
         $this->db->limit($limit, $offset);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+    function get_all(){
+        $this->db->select('*');
+        $this->db->from('compte_general');
         $query = $this->db->get();
         return $query->result_array();
     }

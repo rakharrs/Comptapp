@@ -71,7 +71,7 @@ class Welcome extends CI_Controller {
         $offset = ($page) ? $page : 0; //Page actuelle, par défaut à 0
         $limit = $config['per_page']; //Nombre de lignes à afficher par page
         echo $offset;
-        $data['lines'] = $this->cg->get_all($limit, $offset);
+        $data['lines'] = $this->cg->get_cg($limit, $offset);
         $data['content'] = 'consultation/compte_general';
         $this->load->view('template', $data);
     }
