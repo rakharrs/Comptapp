@@ -29,10 +29,14 @@ class Compte_general_model extends \CI_Model
 		}
 	}
 
-	function get_all(){
-		$query = $this->db->query("select * from compte_general order by id");
-		return $query->result_array();
-	}
+    function get_all($limit, $offset){
+        $this->db->select('*');
+        $this->db->from('compte_general');
+        $this->db->order_by('id', 'ASC');
+        $this->db->limit($limit, $offset);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
 
 	/**
 	 * @throws Exception

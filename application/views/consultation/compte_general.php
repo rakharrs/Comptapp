@@ -63,6 +63,11 @@ $this->load->view('formulaire/compte_generale');
 				<?php } ?>
 				</tbody>
 			</table>
+            <div class="pagination justify-content-center">
+                <ul class="pagination">
+                    <?php echo $this->pagination->create_links(); ?>
+                </ul>
+            </div>
 		</div>
 	</div>
 </div>
