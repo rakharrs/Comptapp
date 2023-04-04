@@ -1,9 +1,9 @@
 
 <section class="position-relative pt-4">
 	<div class="container">
-		<div class="row justify-content-end">
+		<div class="row d-flex justify-content-end">
 			<h4 class="text-decoration-underline text-center mb-2">Insertion plan générale</h4>
-			<div class="col-lg-5 col-sm-12">
+			<div class="col-5">
 				<div class="card">
 					<div class="card-body">
 						<form method="post" action="<?=base_url()?>welcome/insert_cg">
@@ -26,7 +26,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-lg-3 col-sm-12">
+			<div class="col-3">
 				<div class="card">
 					<div class="card-body">
 						<form method="post" action="<?=base_url()?>welcome/import_cg" enctype="multipart/form-data">

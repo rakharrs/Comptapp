@@ -23,7 +23,6 @@ class Compte_tier_model extends CI_Model{
 	}
 	public function getListCompteTier(){
 		$this->db->select();
-		$this->db->order_by("id asc");
 		return $this->db->get('liste_compte_tier')->result_array();
 	}
 	public function update_compte_tier($id, $id_type,$numero, $intitule){
@@ -34,5 +33,35 @@ class Compte_tier_model extends CI_Model{
 		$this->db->where('id', $id);
 		$this->db->delete('compte_tier');
 		return $this->db->affected_rows() > 0;
+	}
+
+	public function search($type, $numero, $intitule){
+		// build query
+		$sql = "SELECT * FROM liste_compte_tier";
+		$params = array();
+
+		if (!empty($type)) {
+			$sql .= "WHERE LOWER(type) LIKE ?";
+			$params[] = "%".$type."%";
+		}
+
+		if (!empty($intitule)) {
+			if (!empty($type)) {
+				$sql .= " AND";
+			}
+			$sql .= " LOWER(intitule) LIKE ?";
+			$params[] = '%'.$intitule.'%';
+		}
+
+		if (!empty($numero)) {
+			if (!empty($type) || !empty($intitule)) {
+				$sql .= " AND";
+			}
+			$sql .= " LOWER(numero) LIKE ?";
+			$params[] = "%".$numero."%";
+		}
+
+		$query = $this->db->query($sql, $params);
+		return $query->result_array();
 	}
 }

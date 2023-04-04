@@ -21,7 +21,7 @@ class Welcome extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-        $this->load->model('Compte_general_model', 'cg');
+		$this->load->model('Compte_general_model', 'cg');
 		$this->load->helper('utils');
 	}
 
@@ -70,16 +70,16 @@ class Welcome extends CI_Controller {
 		redirect('welcome/display_cg');
 	}
 
-    public function search_cg(){
-        $id = $this->input->get('id');
-        $intitule = $this->input->get('intitule_search');
+	public function search_cg(){
+		$id = $this->input->get('id');
+		$intitule = $this->input->get('intitule_search');
 
-        if(is_numeric($id) || is_string($intitule) || !empty($intitule)){
-            $data['lines'] = $this->cg->search($id, $intitule);
-            $data['content'] = 'consultation/compte_general';
-            $this->load->view('template', $data);
-        }else{
-            redirect('welcome/display_cg');
-        }
-    }
+		if(is_numeric($id) || is_string($intitule) || !empty($intitule)){
+			$data['lines'] = $this->cg->search($id, $intitule);
+			$data['content'] = 'consultation/compte_general';
+			$this->load->view('template', $data);
+		}else{
+			redirect('welcome/display_cg');
+		}
+	}
 }

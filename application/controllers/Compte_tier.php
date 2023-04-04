@@ -53,4 +53,19 @@ class Compte_tier extends CI_Controller{
 		// redirect(base_url('compte_tier/liste'));
 		redirect('compte_tier');
 	}
+	public function search_ct(){
+		$type = $this->input->get('search_type');
+		$intitule = $this->input->get('search_intitule');
+		$numero = $this->input->get('search_numero');
+		$search = $this->ct->search($type, $numero, $intitule);
+		if($search>0){
+			$data['content']= 'consultation/compte_tier';
+			$data['donnee']['title'] = 'Insertion compte tiers';
+			$data['donnee']['type'] = $this->tc->getListType();
+			$data['donnee']['lines'] = $search;
+			$this->load->view('body', $data);
+		}else{
+			redirect('compte_tier');
+		}
+	}
 }
