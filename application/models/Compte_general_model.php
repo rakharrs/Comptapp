@@ -63,15 +63,24 @@ class Compte_general_model extends \CI_Model
 		return $this->db->affected_rows() > 0;
 	}
 
-    public function search($id, $intitule) {
+    public function search($id, $intitule, $limit, $offset) {
         // build query
-        $query = "SELECT * FROM compte_general WHERE id LIKE ? AND LOWER(intitule) LIKE ?";
+        $query = "SELECT * FROM compte_general WHERE id LIKE LOWER(?) AND LOWER(intitule) LIKE LOWER(?) order by id LiMIT ? OFFSET ?";
+        $id_param = "%{$id}%";
+        $intitule_param = "%{$intitule}%";
+
+        // execute query with parameter binding
+        $result = $this->db->query($query, array($id_param, $intitule_param, $limit, $offset));
+
+        return $result->result_array();
+    }
+    public function getCountSearch($id, $intitule){
+        $query = "SELECT * FROM compte_general WHERE id LIKE LOWER(?) AND LOWER(intitule) LIKE LOWER(?)";
         $id_param = "%{$id}%";
         $intitule_param = "%{$intitule}%";
 
         // execute query with parameter binding
         $result = $this->db->query($query, array($id_param, $intitule_param));
-
-        return $result->result_array();
+        return $result->num_rows();
     }
 }
