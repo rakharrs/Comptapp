@@ -20,4 +20,3 @@
 		return pathinfo($file_path, PATHINFO_EXTENSION);
 	}
 
-

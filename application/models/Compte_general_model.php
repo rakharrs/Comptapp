@@ -63,6 +63,7 @@ class Compte_general_model extends \CI_Model
 		return $this->db->affected_rows() > 0;
 	}
 
+
     public function search($id, $intitule, $limit, $offset) {
         // build query
         $query = "SELECT * FROM compte_general WHERE id LIKE LOWER(?) AND LOWER(intitule) LIKE LOWER(?) order by id LiMIT ? OFFSET ?";
@@ -83,4 +84,5 @@ class Compte_general_model extends \CI_Model
         $result = $this->db->query($query, array($id_param, $intitule_param));
         return $result->num_rows();
     }
+
 }

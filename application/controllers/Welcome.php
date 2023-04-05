@@ -21,7 +21,7 @@ class Welcome extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-        $this->load->model('Compte_general_model', 'cg');
+		$this->load->model('Compte_general_model', 'cg');
 		$this->load->helper('utils');
         $this->load->library('pagination');
 	}
@@ -142,4 +142,5 @@ class Welcome extends CI_Controller {
             redirect('welcome/display_cg');
         }
     }
+
 }

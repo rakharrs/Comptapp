@@ -8,6 +8,11 @@ $this->load->view('formulaire/compte_tier');
 	<input type="text" name="form_intitule" id="form_intitule">
 	<input type="text" name="form_type" id="form_type">
 </form>
+<form id="search_form" method="get" action="<?=base_url('compte_tier/search_ct')?>" style="display: none">
+	<input type="text" name="search_numero" id="search_numero">
+	<input type="text" name="search_intitule" id="search_intitule">
+	<input type="text" name="search_type" id="search_type">
+</form>
 <div class="container">
 	<div class="row justify-content-end">
 		<div class="col-lg-8 col-sm-12">
@@ -24,7 +29,26 @@ $this->load->view('formulaire/compte_tier');
 						INTITULÉ
 					</th>
 					<th></th>
+					<th>
+
+					</th>
+				</tr>
+				<tr>
+					<th>
+						<input class="form-control" type="text" id="type_s">
+					</th>
+					<th>
+						<input class="form-control" type="text" id="numero_s">
+					</th>
+					<th>
+						<input class="form-control" type="text" id="intitule_s">
+					</th>
 					<th></th>
+					<th>
+						<button class="btn btn-primary w-100" type="submit" onclick="search()">
+							Rechercher
+						</button>
+					</th>
 				</tr>
 				</thead>
 				<tbody>
@@ -63,30 +87,3 @@ $this->load->view('formulaire/compte_tier');
 		</div>
 	</div>
 </div>
-<script>
-	function submitForm(input_id, input1, input2, input3) {
-		// Get the values of the input fields you want to insert into the form
-		var input1Value = document.getElementById(input1).value;
-		console.log(input1)
-		console.log(input2)
-		console.log(input3)
-		var input2Value = document.getElementById(input2).value;
-		var input3Value = document.getElementById(input3).value;
-		var input_idValue = document.getElementById(input_id).value;
-		console.log(input1Value)
-		console.log(input2Value)
-		console.log(input3Value)
-
-		// Get a reference to the form you want to submit
-		var form = document.getElementById("my_form");
-
-		// Set the values of the hidden input fields in the form
-		document.getElementById("form_id").value = input_idValue;
-		document.getElementById("form_type").value = input1Value;
-		document.getElementById("form_numero").value = input2Value;
-		document.getElementById("form_intitule").value = input3Value;
-
-		// Submit the form
-		form.submit();
-	}
-</script>
