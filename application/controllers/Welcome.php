@@ -23,6 +23,7 @@ class Welcome extends CI_Controller {
 		parent::__construct();
 		$this->load->model('Compte_general_model', 'cg');
 		$this->load->helper('utils');
+        $this->load->library('pagination');
 	}
 
 	public function index()
@@ -39,12 +40,41 @@ class Welcome extends CI_Controller {
 	public function ok(){
 		$this->load->view('test');
 	}
+    public function display_cg($page=null){
+        $config = array();
+        $config['first_link'] = 'Premier';
+        $config['last_link'] = 'Dernier';
+        $config['prev_link'] = 'Précédent';
+        $config['next_link'] = 'Suivant';
+        $config['full_tag_open'] = '<ul class="pagination justify-content-center">';
+        $config['full_tag_close'] = '</ul>';
+        $config['num_tag_open'] = '<li class="page-item">';
+        $config['num_tag_close'] = '</li>';
+        $config['cur_tag_open'] = '<li class="page-item active"><a class="page-link" href="#">';
+        $config['cur_tag_close'] = '</a></li>';
+        $config['prev_tag_open'] = '<li class="page-item">';
+        $config['prev_tag_close'] = '</li>';
+        $config['next_tag_open'] = '<li class="page-item">';
+        $config['next_tag_close'] = '</li>';
+        $config['first_tag_open'] = '<li class="page-item">';
+        $config['first_tag_close'] = '</li>';
+        $config['last_tag_open'] = '<li class="page-item">';
+        $config['last_tag_close'] = '</li>';
+        $config['attributes'] = array('class' => 'page-link');
 
-	public function display_cg(){
-		$data['lines'] = $this->cg->get_all();
-		$data['content'] = 'consultation/compte_general';
-		$this->load->view('template', $data);
-	}
+
+        $config['base_url'] = base_url() . 'welcome/display_cg/';
+        $config['total_rows'] = $this->cg->get_count(); //Nombre total de lignes dans la base de données
+        $config['per_page'] = 10; //Nombre de lignes à afficher par page
+        $this->pagination->initialize($config);
+
+        $offset = ($page) ? $page : 0; //Page actuelle, par défaut à 0
+        $limit = $config['per_page']; //Nombre de lignes à afficher par page
+        echo $offset;
+        $data['lines'] = $this->cg->get_cg($limit, $offset);
+        $data['content'] = 'consultation/compte_general';
+        $this->load->view('template', $data);
+    }
 
 	public function insert_cg(){
 		if(isset($_POST['numero'], $_POST['intitule']))
@@ -70,16 +100,47 @@ class Welcome extends CI_Controller {
 		redirect('welcome/display_cg');
 	}
 
-	public function search_cg(){
-		$id = $this->input->get('id');
-		$intitule = $this->input->get('intitule_search');
+    public function search_cg($page=null){
+        $id = $this->input->get('id');
+        $intitule = $this->input->get('intitule_search');
+        $config = array();
+        $config['first_link'] = 'Premier';
+        $config['last_link'] = 'Dernier';
+        $config['prev_link'] = 'Précédent';
+        $config['next_link'] = 'Suivant';
+        $config['full_tag_open'] = '<ul class="pagination justify-content-center">';
+        $config['full_tag_close'] = '</ul>';
+        $config['num_tag_open'] = '<li class="page-item">';
+        $config['num_tag_close'] = '</li>';
+        $config['cur_tag_open'] = '<li class="page-item active"><a class="page-link" href="#">';
+        $config['cur_tag_close'] = '</a></li>';
+        $config['prev_tag_open'] = '<li class="page-item">';
+        $config['prev_tag_close'] = '</li>';
+        $config['next_tag_open'] = '<li class="page-item">';
+        $config['next_tag_close'] = '</li>';
+        $config['first_tag_open'] = '<li class="page-item">';
+        $config['first_tag_close'] = '</li>';
+        $config['last_tag_open'] = '<li class="page-item">';
+        $config['last_tag_close'] = '</li>';
+        $config['attributes'] = array('class' => 'page-link');
 
-		if(is_numeric($id) || is_string($intitule) || !empty($intitule)){
-			$data['lines'] = $this->cg->search($id, $intitule);
-			$data['content'] = 'consultation/compte_general';
-			$this->load->view('template', $data);
-		}else{
-			redirect('welcome/display_cg');
-		}
-	}
+
+
+        if(is_numeric($id) || is_string($intitule) || !empty($intitule)){
+            $config['base_url'] = base_url() . 'welcome/search_cg/';
+            $config['total_rows'] = $this->cg->getCountSearch($id, $intitule); //Nombre total de lignes dans la base de données
+            $config['per_page'] = 10; //Nombre de lignes à afficher par page
+
+            $offset = ($page) ? $page : 0; //Page actuelle, par défaut à 0
+            $limit = $config['per_page']; //Nombre de lignes à afficher par page
+
+            $data['lines'] = $this->cg->search($id, $intitule, $limit, $offset);
+            $this->pagination->initialize($config);
+            $data['content'] = 'consultation/compte_general';
+            $this->load->view('template', $data);
+        }else{
+            redirect('welcome/display_cg');
+        }
+    }
+
 }
