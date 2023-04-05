@@ -9,6 +9,7 @@ class Balancem extends CI_Model
  
     public function getBalance(){
         $this->db->select();
+        echo "hello";
 		return $this->db->get('v_operation_balance')->result_array();
     }
 
