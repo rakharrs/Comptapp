@@ -40,4 +40,10 @@ join compte_general cg on cg.id=numero_compte
 GROUP BY numero_compte,intitule;
 
 
-select * from v_operation_balance
+-- balance status 
+CREATE VIEW v_balance_status AS
+SELECT CASE
+           WHEN SUM(balance) = 0 THEN 'Complete'
+           ELSE 'Inacheve'
+       END AS status
+FROM v_operation_balance
