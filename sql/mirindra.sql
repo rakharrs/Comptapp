@@ -21,3 +21,23 @@ create table societe
 alter table societe
     owner to postgres;
 
+-- balance
+
+CREATE or replace VIEW v_operation_balance AS
+SELECT numero_compte,intitule,
+       SUM(COALESCE(debit, 0)) AS total_debit_mv,
+       SUM(COALESCE(credit, 0)) AS total_credit_mv,
+       CASE
+           WHEN SUM(COALESCE(debit, 0)) - SUM(COALESCE(credit, 0)) > 0 THEN ABS(SUM(COALESCE(debit, 0)) - SUM(COALESCE(credit, 0)))
+           ELSE 0
+       END AS solde_debit,
+       CASE
+           WHEN SUM(COALESCE(debit, 0)) - SUM(COALESCE(credit, 0)) < 0 THEN ABS(SUM(COALESCE(debit, 0)) - SUM(COALESCE(credit, 0)))
+           ELSE 0
+       END AS solde_credit
+FROM operation
+join compte_general cg on cg.id=numero_compte
+GROUP BY numero_compte,intitule;
+
+
+select * from v_operation_balance
