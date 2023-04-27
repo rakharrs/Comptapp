@@ -43,7 +43,25 @@ GROUP BY numero_compte,intitule;
 -- balance status 
 CREATE VIEW v_balance_status AS
 SELECT CASE
-           WHEN SUM(balance) = 0 THEN 'Complete'
-           ELSE 'Inacheve'
+           WHEN total_credit_mv = total_debit_mv THEN 'Complete'
+           when total_credit_mv > total_debit_mv then 'Solde creditaire'
+            else 'Solde debitaire'
+
        END AS status
-FROM v_operation_balance
+FROM v_operation_balance;
+
+-- journal
+CREATE or  replace  VIEW v_journaux AS
+SELECT
+  numero_compte,
+  to_char(date_operation, 'YYYY-MM') AS year_month,
+  SUM(COALESCE(debit, 0)) AS total_debit,
+  SUM(COALESCE(credit, 0)) AS total_credit
+FROM
+  operation
+WHERE
+
+   date_operation < DATE_TRUNC('month', (SELECT MIN(date_operation) FROM operation) + INTERVAL '1 month')
+GROUP BY
+  numero_compte,
+  to_char(date_operation, 'YYYY-MM');
